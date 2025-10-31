@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: settleup
+  dataSource:
+    url: jdbc:postgresql://pg-10570113-settleup.h.aivencloud.com:27442/settleup?ssl=require&user=avnadmin&password=AVNS_xSGZkdfyF-H0bexqQpw
+
+  jpa:
+    hibernate:
+      ddl-auto: update    # use 'validate' or 'none' in production
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
