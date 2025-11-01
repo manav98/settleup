@@ -1,7 +1,8 @@
 package com.community.settleup.controller;
 
-import com.community.settleup.entity.User;
-import com.community.settleup.service.UserService;
+import com.community.settleup.entity.Group;
+import com.community.settleup.request.GroupRequest;
+import com.community.settleup.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,15 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/users")
-public class UserController {
-
+@RequestMapping("/groups")
+public class GroupController {
     @Autowired
-    private UserService userService;
+    private GroupService groupService;
 
     @PostMapping("/create")
-    public void createUser(@RequestBody User user) {
-        userService.createUser(user);
+    public Group createGroup(@RequestBody GroupRequest groupRequest) {
+        return groupService.createGroup(groupRequest.getName(), groupRequest.getMembersIds());
     }
-
 }
