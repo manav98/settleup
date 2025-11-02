@@ -10,7 +10,14 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public void createUser(User user) {
-        userRepository.save(user);
+    public User createUser(String userName, String email) {
+        if (userRepository.existsByEmail(email)) {
+            throw new RuntimeException("User with this email already exists");
+        }
+        User newUser = User.builder()
+                .userName(userName)
+                .email(email)
+                .balance(0.0).build();
+        return userRepository.save(newUser);
     }
 }
