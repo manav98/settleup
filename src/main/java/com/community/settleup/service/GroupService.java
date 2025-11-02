@@ -8,7 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 public class GroupService {
@@ -30,4 +34,12 @@ public class GroupService {
                 .members(groupMembers).build();
         return groupRepository.save(group);
     }
+
+    public Map<String, Double> getGroupBalances(Long groupId) {
+        Group currentGroup = groupRepository.findById(groupId)
+                .orElseThrow(() -> new RuntimeException("Group not found. Invalid Group ID"));
+        List<User> members = currentGroup.getMembers();
+        return members.stream().collect(Collectors.toMap(User::getUserName, User::getBalance));
+    }
+
 }

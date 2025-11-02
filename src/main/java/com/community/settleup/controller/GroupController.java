@@ -4,10 +4,11 @@ import com.community.settleup.entity.Group;
 import com.community.settleup.request.GroupRequest;
 import com.community.settleup.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/groups")
@@ -16,7 +17,14 @@ public class GroupController {
     private GroupService groupService;
 
     @PostMapping("/create")
-    public Group createGroup(@RequestBody GroupRequest groupRequest) {
-        return groupService.createGroup(groupRequest.getName(), groupRequest.getMembersIds());
+    public ResponseEntity<Group> createGroup(@RequestBody GroupRequest groupRequest) {
+        return new ResponseEntity<>(
+                groupService.createGroup(groupRequest.getName(), groupRequest.getMembersIds()),
+                HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{groupId}/balances")
+    public ResponseEntity<Map<String, Double>> getGroupBalances(@PathVariable Long groupId) {
+        return new ResponseEntity<>(groupService.getGroupBalances(groupId), HttpStatus.OK);
     }
 }
